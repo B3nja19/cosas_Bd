@@ -1,0 +1,29 @@
+set SERVEROUTPUT on
+ACCEPT rut_in char prompt 'Escribe tu rut'
+
+
+declare 
+rut varchar2(11) := '&rut_in';
+serie number:=2;
+acum number:=0;
+BEGIN
+
+for num_vuelta in reverse 1..length(rut)
+loop
+dbms_output.put_line(SUBSTR(rut,num_vuelta,1)|| '*' || serie);
+acum := acum + (SUBSTR(rut,num_vuelta,1) * serie);
+serie := serie +1;
+
+    if(serie >7) then
+        serie :=2;
+    end if;    
+end loop;
+dbms_output.put_line('La suma total es:' || acum);
+dbms_output.put_line('El resto o diferenia por 11: ' || mod(acum,11));
+dbms_output.put_line('El digito verificador es: '|| (11- mod(acum,11)));
+if ( (11- mod(acum,11)) >9) then 
+    dbms_output.put_line('el digito verificador es - k');
+else 
+ dbms_output.put_line('Digito verificador es'||(11- mod(acum,11)));
+end if;
+end;
