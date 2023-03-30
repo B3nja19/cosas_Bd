@@ -1,0 +1,21 @@
+set serveroutput on
+
+
+accept PALABRA_IN char prompt 'Escriba una palabra para saber si es polindroma'
+
+declare 
+PALABRA varchar(20) :='&PALABRA_IN';
+PALABRA_INVERTIDA VARCHAR(20);
+
+begin
+    for CONTADOR in REVERSE 1..LENGth(PALABRA)
+    LOOP
+       PALABRA_INVERTIDA:= PALABRA_INVERTIDA || SUBSTR(PALABRA, CONTADOR,1);
+    END LOOP;
+    dbms_output.put_line(PALABRA_INVERTIDA);
+    IF(PALABRA = PALABRA_INVERTIDA)THEN
+    DBMS_OUTPUT.PUT_LINE('ES POLINDROMO');
+    ELSE
+    DBMS_OUTPUT.PUT_LINE('NO ES POLINDROMO');
+    END IF;
+end;
