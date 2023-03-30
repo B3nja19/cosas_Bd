@@ -1,0 +1,24 @@
+set serveroutput on
+
+
+accept numero_in char prompt 'Cuentos numeros primos desea'
+
+declare 
+numero number :='&numero_in';
+contador number:=1;
+esprimo boolean:=true;
+
+
+begin
+while(contador<numero) loop
+    for contador_temp in 2..numero-1 loop
+        if(mod(contador,contador_temp)=0) then
+            esprimo:=false;
+        end if;
+    end loop;
+    if(esprimo)then 
+    dbms_autput.put_line(contador||'Es primo');
+    contador := contador +1;
+    end if;
+end loop;
+end;
