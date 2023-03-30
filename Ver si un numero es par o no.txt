@@ -1,0 +1,16 @@
+set serveroutput on
+
+
+accept numero_in char prompt 'Escriba un valor para saber si es par'
+
+declare 
+numero number :='&numero_in';
+
+
+begin
+if(mod(numero,2)=0) then
+    dbms_output.put_line('Es par');
+else
+    dbms_output.put_line('Es impar');
+end if;    
+end;
