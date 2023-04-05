@@ -1,0 +1,36 @@
+SET SERVEROUTPUT ON
+DECLARE
+min_id_vendedor number := 0;
+max_id_vendedor number := 0;
+contador_id_vendedor number := 0;
+vendedor_rut_vari varchar(10);
+fec_con_ven number:=0;
+v_sueldob number:=0;
+annos_traba int;
+boni_anti number;
+BEGIN
+SELECT min(id_vendedor), max(id_vendedor) INTO min_id_vendedor, max_id_vendedor 
+from vendedor;
+dbms_output.put_line('Minimo : '|| min_id_vendedor ||' Maximo ' || max_id_vendedor );
+contador_id_vendedor := min_id_vendedor;
+WHILE (contador_id_vendedor <= max_id_vendedor) LOOP
+    dbms_output.put_line('CAMBIANDO ID : ' || contador_id_vendedor);
+    SELECT rut_vendedor,sueldo_base,trunc(2021)-to_number(to_char(fec_contrato, 'yyyy')) into vendedor_rut_vari,v_sueldob,annos_traba FROM VENDEDOR WHERE id_vendedor = contador_id_vendedor;
+    if(annos_traba >1 and annos_traba<=9) then 
+        boni_anti:= v_sueldob * 0.02;
+    elsif (annos_traba>=10 and annos_traba<=15) then 
+        boni_anti:= v_sueldob * 0.03;
+    elsif (annos_traba >=16 and annos_traba<=20) then 
+        boni_anti:= v_sueldob * 0.06;
+    elsif (annos_traba >=21 and annos_traba<=30) then 
+        boni_anti:= v_sueldob * 0.10;
+    elsif (annos_traba >=31 and annos_traba<=40) then 
+        boni_anti:= v_sueldob * 0.12;
+    end if;
+        
+    INSERT INTO haber_mes_vendedor
+    VALUES(contador_id_vendedor,vendedor_rut_vari,4,4,v_sueldob,boni_anti,4,4,4,4);
+    
+    contador_id_vendedor := contador_id_vendedor + 10;
+END LOOP;
+END;
